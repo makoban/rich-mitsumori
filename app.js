@@ -4,36 +4,18 @@
 (function () {
   'use strict';
 
-  // --- Scroll fade-up animation ---
+  // --- Fade-up animation: 即時stagger表示 + スクロール連動 ---
   const fadeEls = document.querySelectorAll('.fade-up');
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.05, rootMargin: '0px 0px 100px 0px' }
-  );
-
-  fadeEls.forEach((el) => observer.observe(el));
-
-  // 初回ロード時にビューポート内の要素は即表示 + 遅延フォールバック
-  requestAnimationFrame(() => {
-    fadeEls.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight + 50) {
-        el.classList.add('visible');
-      }
-    });
+  // ビューポート内は即表示、ビューポート外はstagger表示（全要素500ms以内に表示完了）
+  fadeEls.forEach((el, i) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      el.classList.add('visible');
+    } else {
+      setTimeout(() => el.classList.add('visible'), Math.min(i * 60, 500));
+    }
   });
-  // 1.5秒後に残り全要素を表示（スクロール不要のユーザー対応）
-  setTimeout(() => {
-    fadeEls.forEach((el) => el.classList.add('visible'));
-  }, 1500);
 
   // --- Navbar scroll effect ---
   const navbar = document.getElementById('navbar');
