@@ -5,6 +5,8 @@
   'use strict';
 
   // --- Scroll fade-up animation ---
+  const fadeEls = document.querySelectorAll('.fade-up');
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -14,10 +16,24 @@
         }
       });
     },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.05, rootMargin: '0px 0px 100px 0px' }
   );
 
-  document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
+  fadeEls.forEach((el) => observer.observe(el));
+
+  // 初回ロード時にビューポート内の要素は即表示 + 遅延フォールバック
+  requestAnimationFrame(() => {
+    fadeEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight + 50) {
+        el.classList.add('visible');
+      }
+    });
+  });
+  // 1.5秒後に残り全要素を表示（スクロール不要のユーザー対応）
+  setTimeout(() => {
+    fadeEls.forEach((el) => el.classList.add('visible'));
+  }, 1500);
 
   // --- Navbar scroll effect ---
   const navbar = document.getElementById('navbar');

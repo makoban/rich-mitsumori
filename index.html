@@ -28,8 +28,9 @@
   <style>
     html { scroll-behavior: smooth; }
     body { font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; }
-    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
+    noscript ~ * .fade-up, .no-js .fade-up { opacity: 1; transform: none; }
     .gradient-text { background: linear-gradient(135deg, #6366f1 0%, #a78bfa 50%, #c084fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
     .hero-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; filter: blur(120px); opacity: 0.15; pointer-events: none; }
